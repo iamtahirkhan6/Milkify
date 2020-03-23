@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>{{ locality.name }} | Milkify</title>
+{% endblock title %}
+
+{% block content %}
+
+<div class="main d-flex align-items-center padding-8-6">
+  <div class="container">
+    <div class="row">
+      <h2 class="h2 mx-auto">{{ locality.name }}</h2>
+    </div>
+    <div class="card mx-auto mt-2">
+      <div class="card-body d-flex p-5">
+        <ul>
+          {% for each_listing in listings %}
+            <li>{{ each_listing.name }}</li>
+            <li>{{ each_listing.seller }}</li>
+          {% endfor %}
+        <ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

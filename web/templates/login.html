@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+  <title>Login | Milkify</title>
+{% endblock title %}
+
+{% block content %}
+
+  <div class="main d-flex align-items-center padding-8-6">
+    <div class="container">
+      <div class="card px-3" style="width:100%;">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-6 col-sm-12">
+              <img src="{% static 'images\undraw_mobile_login_ikmv.svg' %}"></img>
+            </div>
+            <div class="col-sm-12 col-lg-6 mt-2 p-5">
+              <h3 class="h3" data-max-width="500">Access your account</h3>
+              {% if messages %}
+              <div class="col pl-0">
+                {% for message in messages %}
+                {% if message.tags == 'success'%}
+                <div class="alert alert-success" role="alert">{{ message }}</div>
+                {% elif message.tags == 'error'%}
+                <div class="alert alert-warning" role="alert">{{ message }}</div>
+                {% endif %}
+                {% endfor %}
+              </div>
+              {% else %}
+              <form class="container" action="login" method="post">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col pl-0">
+                    <div class="form-group">
+                      <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Email Address" autocomplete="off"
+                        style="border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 2px solid rgb(230, 230, 230);">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col pl-0">
+                    <div class="form-group">
+                      <input type="password" class="form-control" name="password" placeholder="Password" autocomplete="off"
+                        style="border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 2px solid rgb(230, 230, 230);">
+                    </div>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+              {% endif %}
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}

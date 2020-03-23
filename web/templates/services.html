@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>Services | Milkify</title>
+{% endblock title %}
+
+{% block content %}
+
+<div class="main d-flex align-items-center padding-8-6">
+  <div class="container">
+    <div class="row mt-3">
+      <h2 class="h2 mx-auto">Milk Delivery Services</h2>
+    </div>
+    <div class="row-12 mt-3 mb-5 mx-auto d-flex">
+      {% for service in services %}
+      <div class="col">
+        <div class="card" style="max-width: 18rem;">
+          <img class="card-img-top" src="http://themes.yogurt.design/alo/html/assets/img/preview/01.jpg" alt="img">
+          <div class="card-body">
+            <h5 class="card-title">{{ service.name }}</h5>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
