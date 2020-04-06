@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>My Account | Milkify</title>
+{% endblock title %}
+
+{% block content %}
+
+<div class="main d-flex align-items-center padding-8-6">
+  <div class="container-fluid min-h w-75">
+    <div class="row">
+      <img src="{% static '/images/profile_pic.png' %}" style="width: 13rem;" class="mt-3 mx-auto">
+      <div class="heading-title text-center mb-3">
+        <span class="display-5">My Profile</span>
+        <p></p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="card mx-auto mt-2 w-100">
+        <div class="card-body p-5">
+          {% if user.user_type == 1 %}
+            <div class="row d-flex">
+              <div class="col-lg-4 col-sm-4 col-sm-12">
+                <h4>Your Name</h4>
+                <h6 class="text-secondary">{{ user }}</h6>
+              </div>
+              <div class="col-lg-4 col-sm-4 col-sm-12">
+                <h4>Account Balance</h4>
+                <h6 class="text-secondary">₹{{ user.account_balance }}</h6>
+              </div>
+              <div class="col-lg-4 col-sm-4 col-sm-12">
+                <h4>Your Subscriptions</h4>
+                <h6 class="text-secondary">{{ subscriptions_count }}</h6>
+              </div>
+            </div>
+
+            <hr class="color-secondary my-4">
+
+            <div class="row d-flex">
+              <div class="col">
+                <h4>Subscription History</h4>
+                {% if subscriptions_count > 0 %}
+                  <table class="table table-light ">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Product</th>
+                      <th scope="col">Seller</th>
+                      <th scope="col">From</th>
+                      <th scope="col">Till</th>
+                      <th scope="col">Locality</th>
+                      <th scope="col">Total Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for subscription in subscriptions %}
+                      <tr>
+                        <td>{{ subscription.product }}</td>
+                        <td>{{ subscription.seller }}</td>
+                        <td>{{ subscription.duration_from }}</td>
+                        <td>{{ subscription.duration_till }}</td>
+                        <td>{{ subscription.locality }}</td>
+                        <td>₹{{ subscription.total_amount }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                {% else %}
+                  <h6 class="text-secondary">You currently have no active subscriptions.</h6>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="row d-flex">
+              <div class="col">
+                <hr class="color-secondary my-4">
+                <h4>Edit your Account</h4>
+                <a href="/profile/add-money" class="btn btn-success btn-lg">Add Money</a>
+                <button type="button" class="btn btn-info btn-lg">Edit Account</button>
+              </div>
+            </div>
+          {% else %}
+            <div class="row d-flex">
+              <div class="col-lg-3 col-sm-3 col-sm-12">
+                <h5>Your Name</h5>
+                <h6 class="text-secondary">{{ user }}</h6>
+              </div>
+              <div class="col-lg-3 col-sm-3 col-sm-12">
+                <h5>Account Balance</h5>
+                <h6 class="text-secondary">₹{{ user.account_balance }}</h6>
+              </div>
+              <div class="col-lg-3 col-sm-3 col-sm-12">
+                <h5>Your Services</h5>
+                <h6 class="text-secondary">{{ listings_count }}</h6>
+              </div>
+              <div class="col-lg-3 col-sm-3 col-sm-12">
+                <h5>Total Orders</h5>
+                <h6 class="text-secondary">{{ subscriptions_count }}</h6>
+              </div>
+            </div>
+
+            <hr class="color-secondary my-4">
+
+            <div class="row d-flex">
+              <div class="col">
+                <h4>Your Services</h4>
+                {% if listings_count > 0 %}
+                  <table class="table table-light ">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Product</th>
+                      <th scope="col">locality</th>
+                      <th scope="col">Price</th>
+                      <th scope="col w-10" >Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for listing in listings %}
+                      <tr>
+                        <td>{{ listing.name }}</td>
+                        <td> {% for place in listing.locality.all %}{{ place }}{% if forloop.last %}{% else %}, {% endif %}{% endfor %}</td>
+                        <td>{{ listing.price }}</td>
+                        <td class="">
+                          <form action="/profile/delete-listing" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value="{{ listing.id }}"></input>
+                            <button type="submit" class="btn btn-sm btn-danger"> <i class="fa fa-trash" aria-hidden="true"></i></button>
+                          </form>
+
+
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                {% else %}
+                  <h6 class="text-secondary">You currently have no active subscriptions.</h6>
+                {% endif %}
+              </div>
+            </div>
+
+            <hr class="color-secondary my-4">
+
+            <div class="row d-flex">
+              <div class="col">
+                <h4>Subscription History</h4>
+                {% if subscriptions_count > 0 %}
+                  <table class="table table-light ">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Product</th>
+                      <th scope="col">Buyer</th>
+                      <th scope="col">From</th>
+                      <th scope="col">Till</th>
+                      <th scope="col">Address 1</th>
+                      <th scope="col">Address 2</th>
+                      <th scope="col">Mobile</th>
+                      <th scope="col">Locality</th>
+                      <th scope="col">Total Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for subscription in subscriptions %}
+                      <tr>
+                        <td>{{ subscription.product }}</td>
+                        <td>{{ subscription.buyer }}</td>
+                        <td>{{ subscription.duration_from }}</td>
+                        <td>{{ subscription.duration_till }}</td>
+                        <td>{{ subscription.address_1 }}</td>
+                        <td>{{ subscription.address_2 }}</td>
+                        <td>{{ subscription.mobile }}</td>
+                        <td>{{ subscription.locality }}</td>
+                        <td>₹{{ subscription.total_amount }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                {% else %}
+                  <h6 class="text-secondary">You currently have no active subscriptions.</h6>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="row d-flex">
+              <div class="col">
+                <hr class="color-secondary my-4">
+                <h4>Edit your Account</h4>
+                <a href="/profile/create-listing" type="button" class="btn btn-warning btn-lg" >Create Listing</a>
+                <button type="button" class="btn btn-info btn-lg">Edit Account</button>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% block javascript %}
+  <script type="text/javascript">
+    function delete_lising(id)
+    {
+      if (Number.isInteger(id)) {
+        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+        $.post("/profile/delete-listing", {
+            "id": id,
+        },
+
+        function(data, status) {
+            alert("data");
+        });
+      }
+    }
+  </script>
+{% endblock javascript %}
+
+{% endblock content %}

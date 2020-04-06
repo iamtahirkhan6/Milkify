@@ -7,7 +7,7 @@
 {% block content %}
 
 <div class="main d-flex align-items-center padding-8-6">
-  <div class="container">
+  <div class="container min-h">
     <div class="row mt-3">
       <h2 class="h2 mx-auto">Milk Delivery Services</h2>
     </div>
@@ -15,7 +15,13 @@
       {% for service in services %}
       <div class="col">
         <div class="card" style="max-width: 18rem;">
-          <img class="card-img-top" src="http://themes.yogurt.design/alo/html/assets/img/preview/01.jpg" alt="img">
+          {% if service.name|slugify == "buffalo-milk" %}
+          <img class="card-img-top mr-3" src="{% static '/images/buffalo.jpg' %}" alt="img" style="" />
+          {% elif service.name|slugify == "cow-milk" %}
+          <img class="card-img-top mr-3" src="{% static '/images/cow.jpg' %}" alt="img" style="" />
+          {% elif service.name|slugify == "goat-milk" %}
+          <img class="card-img-top mr-3" src="{% static '/images/goat.jpg' %}" alt="img" style="" />
+          {% endif %}
           <div class="card-body">
             <h5 class="card-title">{{ service.name }}</h5>
           </div>

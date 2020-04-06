@@ -1,0 +1,58 @@
+/********************************************
+  Styles that apply only to mobile devices
+/*******************************************/
+
+@media only screen and (max-width: 768px)
+{
+  .milk-type-selector{
+    display:  block;
+  }
+
+  .service-footer{
+    display: none;
+  }
+}
+
+/********************************************
+  Styles that to big  devices
+/*******************************************/
+
+@media only screen and (min-width: 768px) {
+  .milk-type-box{
+    border-right: 1px solid #adb5bd6e;
+  }
+}
+
+/********************************************
+  For everyone
+/*******************************************/
+
+.list-style-none{
+  list-style-type:none;
+}
+
+
+.display-5
+{
+  font-size: 2.75rem;
+  color: #2c3f52;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+.font-larger
+{
+  font-size: larger;
+}
+
+.min-h{
+  min-height: 42vh!important;
+}
+
+.w-10{
+  width: 10%
+}
+
+.w-60{
+  width: 60%
+}

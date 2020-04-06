@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>Create New Listing | Milkify</title>
+{% endblock title %}
+
+{% block content %}
+
+<div class="main d-flex align-items-center padding-8-6">
+  <div class="container min-h">
+    <div class="card px-3" style="width:100%;">
+      <div class="card-body pb-0">
+        <div class="row">
+          <div class="col-lg-6 col-sm-12 my-auto">
+            <img src="{% static 'images\create-listing.svg' %}"></img>
+          </div>
+          <div class="col-sm-12 col-lg-6 mt-2 p-5">
+            <h3 class="h3" data-max-width="500">Create service listing</h3>
+            {% if messages %}
+            <div class="col pl-0">
+              {% for message in messages %}
+              {% if message.tags == 'error'%}
+              <div class="alert alert-warning" role="alert">{{ message }}</div>
+              {% endif %}
+              {% endfor %}
+            </div>
+            {% endif %}
+            <form action="create-listing" method="post">
+              {% csrf_token %}
+
+              <div class="form-group">
+                <label for="product">Product</label>
+                <select class="form-control" name="product" id="product" required>
+                  <option value="">Choose...</option>
+                  {% for product in products %}
+                    <option value="{{ product.id }}">{{ product.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect2">Localities</label>
+                <select class="form-control" name="localities[]" required multiple>
+                  {% for locality in localities %}
+                    <option value="{{ locality.id }}">{{ locality.name }}</option>
+                  {% endfor %}
+                </select>
+                <small id="emailHelp" class="form-text text-muted">Hold Shift or Lctrl key to select multiple localities.</small>
+              </div>
+
+              <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" step="0.1" class="form-control" name="price" required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% block javascript %}
+{% if success != "true" %}
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script type="text/javascript">
+  $(document).ready(function() {
+    $("form").submit(function(e) {
+      var product = $("#product").val();
+      if ((product == "Choose...") || product == "null")
+      {
+        e.preventDefault();
+        $("#error_box").html('<div class="alert alert-warning mt-4" role="alert">Please select a timing in which your milk should be delivered!</div>');
+      }
+    });
+  });
+  </script>
+
+{% endif %}
+
+{% endblock javascript %}
+{% endblock content %}

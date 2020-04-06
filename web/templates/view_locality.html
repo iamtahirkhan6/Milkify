@@ -7,20 +7,87 @@
 {% block content %}
 
 <div class="main d-flex align-items-center padding-8-6">
-  <div class="container">
+  <div class="container min-h" >
     <div class="row">
-      <h2 class="h2 mx-auto">{{ locality.name }}</h2>
-    </div>
-    <div class="card mx-auto mt-2">
-      <div class="card-body d-flex p-5">
-        <ul>
-          {% for each_listing in listings %}
-            <li>{{ each_listing.name }}</li>
-            <li>{{ each_listing.seller }}</li>
-          {% endfor %}
-        <ul>
+      <div class="heading-title text-center">
+        <span class="display-4 display-5">{{ locality.name }}</span>
+        <p>{{ listings.count }} listings from this neighbourhood</p>
       </div>
     </div>
+    {% if listings.count == 0 %}
+    <div class="card mx-auto mt-5">
+      <div class="card-body d-flex p-5">
+        <div class="row">
+          <div class="col-sm-12 col-lg-4 col-md-4"><img src="{% static '/images/undraw_no_data_qbuo.png' %}"></div>
+          <div class="col-sm-12 col-lg-8 col-md-8 my-auto">
+            <div class="heading-title text-left">
+              <span class="h4 text-warning">No vendors available</span>
+              <p>Currently there are no available milk vendors in this area. Please check back later.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div class="row milk-type-selector">
+
+      <div class="col-sm-12 col-md-2 col-lg-2 milk-type-box">
+        <ul class="pl-0 list-style-none">
+          <li><a href="/"><span class="h6 mx_auto">Buffalo Milk</span></a></li>
+          <li><a href="/"><span class="h6 mx_auto">Cow Milk</span></a></li>
+          <li><a href="/"><span class="h6 mx_auto">Goat Milk</span></a></li>
+        </ul>
+      </div>
+
+      <div class="col">
+
+
+
+        {% for each_listing in listings %}
+        <div class="row-12">
+          <div class="card mx-auto {% if not forloop.first %}mt-4 {% endif %}pl-0">
+            <div class="card-body d-flex py-0 pl-0">
+
+              <div class="col-3 p-0">
+                {% if each_listing.name|slugify == "buffalo-milk" %}
+                <img class="card-img-top mr-3" src="{% static '/images/buffalo.jpg' %}" alt="img" style="max-width: 15rem;" />
+                {% elif each_listing.name|slugify == "cow-milk" %}
+                <img class="card-img-top mr-3" src="{% static '/images/cow.jpg' %}" alt="img" style="max-width: 15rem;" />
+                {% elif each_listing.name|slugify == "goat-milk" %}
+                <img class="card-img-top mr-3" src="{% static '/images/goat.jpg' %}" alt="img" style="max-width: 15rem;" />
+                {% endif %}
+              </div>
+
+              <div class="col-7 pl-5 mt-5">
+                  <div class="row"><span class="h5 mx_auto">{{ each_listing.name }}</span></div>
+                  <div class="row">
+                    <span>Sold by <b>{{ each_listing.seller }}</b>.</span>
+                  </div>
+              </div>
+
+              <div class="col p-0 mt-5">
+                <div class="row mb-1"><span class="text-dark">₹{{ each_listing.price }}/litre</span></div>
+                <div class="row">
+                  <form action="/purchase" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{ each_listing.id }}"></input>
+                    <input type="hidden" name="locality_id" value="{{ locality.id }}"></input>
+                    <button type="submit" class="btn btn-info">Purchase</button>
+                  </form>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+
+
+      </div>
+    </div>
+    {% endif %}
+
   </div>
 </div>
 
