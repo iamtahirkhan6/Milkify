@@ -132,7 +132,7 @@ def purchase(request):
 
                         userobj.account_balance -= float(total_amount)
                         userobj.save()
-                        
+
                         return render(request, 'purchase.html', {"paid" : "true"})
                     else:
                         listing_info.locality_id = locality_id
